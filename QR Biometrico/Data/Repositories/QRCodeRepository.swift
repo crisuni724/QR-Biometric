@@ -1,18 +1,41 @@
 import Foundation
 import CoreData
 
+enum QRRepositoryError: LocalizedError {
+    case saveFailed
+    case fetchFailed
+    case deleteFailed
+    case invalidData
+    
+    var errorDescription: String? {
+        switch self {
+        case .saveFailed:
+            return "No se pudo guardar el código QR"
+        case .fetchFailed:
+            return "No se pudieron obtener los códigos QR"
+        case .deleteFailed:
+            return "No se pudo eliminar el código QR"
+        case .invalidData:
+            return "Los datos del código QR no son válidos"
+        }
+    }
+}
+
 protocol QRCodeRepositoryProtocol {
-    func saveQRCode(_ qrCode: QRCode) async throws
-    func getAllQRCodes() async throws -> [QRCode]
-    func deleteQRCode(_ qrCode: QRCode) async throws
-    func updateQRCode(_ qrCode: QRCode) async throws
+    func saveQRCode(_ code: QRCode) async throws
+    func getScannedCodes() async throws -> [QRCode]
+    func deleteQRCode(_ code: QRCode) async throws
 }
 
 class QRCodeRepository: QRCodeRepositoryProtocol {
     private let container: NSPersistentContainer
     
-    init() {
-        container = NSPersistentContainer(name: "QR_Biometrico")
+    init(inMemory: Bool = false) {
+        container = NSPersistentContainer(name: "QRBiometrico")
+        
+        if inMemory {
+            container.persistentStoreDescriptions.first?.url = URL(fileURLWithPath: "/dev/null")
+        }
         
         container.loadPersistentStores { description, error in
             if let error = error {
@@ -23,53 +46,60 @@ class QRCodeRepository: QRCodeRepositoryProtocol {
         container.viewContext.automaticallyMergesChangesFromParent = true
     }
     
-    func saveQRCode(_ qrCode: QRCode) async throws {
-        let context = container.viewContext
+    func saveQRCode(_ code: QRCode) async throws {
+        let context = container.newBackgroundContext()
         
-        let qrCodeEntity = QRCodeEntity(context: context)
-        qrCodeEntity.id = qrCode.id
-        qrCodeEntity.content = qrCode.content
-        qrCodeEntity.timestamp = qrCode.timestamp
-        
-        try context.save()
-    }
-    
-    func getAllQRCodes() async throws -> [QRCode] {
-        let context = container.viewContext
-        let request = QRCodeEntity.fetchRequest()
-        request.sortDescriptors = [NSSortDescriptor(keyPath: \QRCodeEntity.timestamp, ascending: false)]
-        
-        let entities = try context.fetch(request)
-        return entities.compactMap { entity in
-            guard let content = entity.content,
-                  let id = entity.id,
-                  let timestamp = entity.timestamp else { return nil }
-            return QRCode(id: id, content: content, timestamp: timestamp)
+        return try await context.perform {
+            let entity = QRCodeEntity(context: context)
+            entity.id = code.id
+            entity.content = code.content
+            entity.timestamp = code.timestamp
+            
+            do {
+                try context.save()
+            } catch {
+                throw QRRepositoryError.saveFailed
+            }
         }
     }
     
-    func deleteQRCode(_ qrCode: QRCode) async throws {
+    func getScannedCodes() async throws -> [QRCode] {
         let context = container.viewContext
-        let request = QRCodeEntity.fetchRequest()
-        request.predicate = NSPredicate(format: "id == %@", qrCode.id as CVarArg)
         
-        let entities = try context.fetch(request)
-        if let entity = entities.first {
-            context.delete(entity)
-            try context.save()
+        return try await context.perform {
+            let request = QRCodeEntity.fetchRequest()
+            request.sortDescriptors = [NSSortDescriptor(keyPath: \QRCodeEntity.timestamp, ascending: false)]
+            
+            do {
+                let entities = try request.execute()
+                return entities.compactMap { entity in
+                    guard let id = entity.id,
+                          let content = entity.content,
+                          let timestamp = entity.timestamp else {
+                        return nil
+                    }
+                    return QRCode(id: id, content: content, timestamp: timestamp)
+                }
+            } catch {
+                throw QRRepositoryError.fetchFailed
+            }
         }
     }
     
-    func updateQRCode(_ qrCode: QRCode) async throws {
-        let context = container.viewContext
-        let request = QRCodeEntity.fetchRequest()
-        request.predicate = NSPredicate(format: "id == %@", qrCode.id as CVarArg)
+    func deleteQRCode(_ code: QRCode) async throws {
+        let context = container.newBackgroundContext()
         
-        let entities = try context.fetch(request)
-        if let entity = entities.first {
-            entity.content = qrCode.content
-            entity.timestamp = qrCode.timestamp
-            try context.save()
+        return try await context.perform {
+            let request = QRCodeEntity.fetchRequest()
+            request.predicate = NSPredicate(format: "id == %@", code.id as CVarArg)
+            
+            do {
+                let entities = try request.execute()
+                entities.forEach { context.delete($0) }
+                try context.save()
+            } catch {
+                throw QRRepositoryError.deleteFailed
+            }
         }
     }
 } 
