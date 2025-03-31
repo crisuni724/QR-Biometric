@@ -8,6 +8,7 @@ enum QRScannerError: LocalizedError {
     case scanningFailed
     case invalidInput
     case processingError
+    case sessionNotConfigured
     
     var errorDescription: String? {
         switch self {
@@ -21,6 +22,8 @@ enum QRScannerError: LocalizedError {
             return "El código QR no es válido"
         case .processingError:
             return "Error al procesar el código QR"
+        case .sessionNotConfigured:
+            return "La sesión de escaneo no está configurada"
         }
     }
 }
@@ -47,6 +50,7 @@ class QRScannerService: NSObject, QRScannerServiceProtocol, AVCaptureMetadataOut
     
     private var captureSession: AVCaptureSession?
     private var isProcessing = false
+    private let processingQueue = DispatchQueue(label: "com.qrbiometrico.processing")
     
     var isScanning: Bool {
         captureSession?.isRunning ?? false
@@ -92,7 +96,7 @@ class QRScannerService: NSObject, QRScannerServiceProtocol, AVCaptureMetadataOut
         if session.canAddOutput(metadataOutput) {
             session.addOutput(metadataOutput)
             
-            metadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
+            metadataOutput.setMetadataObjectsDelegate(self, queue: processingQueue)
             metadataOutput.metadataObjectTypes = [.qr]
         } else {
             throw QRScannerError.setupFailed
@@ -103,13 +107,14 @@ class QRScannerService: NSObject, QRScannerServiceProtocol, AVCaptureMetadataOut
     
     func startScanning() async throws {
         guard let session = captureSession else {
-            throw QRScannerError.setupFailed
+            throw QRScannerError.sessionNotConfigured
         }
         
         guard !session.isRunning else { return }
         
         do {
             try await session.startRunning()
+            isProcessing = false
         } catch {
             throw QRScannerError.scanningFailed
         }
@@ -117,7 +122,7 @@ class QRScannerService: NSObject, QRScannerServiceProtocol, AVCaptureMetadataOut
     
     func stopScanning() async throws {
         guard let session = captureSession else {
-            throw QRScannerError.setupFailed
+            throw QRScannerError.sessionNotConfigured
         }
         
         guard session.isRunning else { return }
@@ -135,6 +140,10 @@ class QRScannerService: NSObject, QRScannerServiceProtocol, AVCaptureMetadataOut
         }
         
         isProcessing = true
-        scanResultSubject.send(stringValue)
+        
+        // Enviar el resultado en el hilo principal
+        DispatchQueue.main.async { [weak self] in
+            self?.scanResultSubject.send(stringValue)
+        }
     }
 } 
