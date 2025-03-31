@@ -10,42 +10,85 @@ platform :ios do
     )
   end
   
-  desc "Ejecutar pruebas"
+  desc "Ejecutar pruebas unitarias"
   lane :tests do
-    scan(
+    run_tests(
       scheme: "QR Biometrico",
-      devices: ["iPhone 15 Pro"],
+      workspace: "QR Biometrico.xcworkspace",
+      devices: ["iPhone 16 Pro"],
       clean: true
     )
   end
   
-  desc "Construir la aplicación"
-  lane :build do
+  desc "Construir la aplicación para desarrollo"
+  lane :build_dev do
     setup_ci if is_ci
-    increment_build_number
+    update_code_signing_settings(
+      use_automatic_signing: true,
+      targets: ["QR Biometrico"]
+    )
     build_ios_app(
       scheme: "QR Biometrico",
-      export_method: "app-store",
-      configuration: "Release",
-      clean: true
+      workspace: "QR Biometrico.xcworkspace",
+      export_method: "development",
+      clean: true,
+      output_directory: "builds",
+      output_name: "QRBiometrico-Dev.ipa"
     )
   end
   
-  desc "Desplegar a TestFlight"
-  lane :beta do
-    build
+  desc "Construir la aplicación para producción"
+  lane :build_prod do
+    setup_ci if is_ci
+    update_code_signing_settings(
+      use_automatic_signing: false,
+      targets: ["QR Biometrico"]
+    )
+    build_ios_app(
+      scheme: "QR Biometrico",
+      workspace: "QR Biometrico.xcworkspace",
+      export_method: "app-store",
+      clean: true,
+      output_directory: "builds",
+      output_name: "QRBiometrico-Prod.ipa"
+    )
+  end
+  
+  desc "Desplegar la aplicación en TestFlight"
+  lane :deploy_testflight do
+    build_prod
     upload_to_testflight(
       skip_waiting_for_build_processing: true
     )
   end
   
-  desc "Desplegar a App Store"
-  lane :release do
-    build
+  desc "Desplegar la aplicación en App Store"
+  lane :deploy_appstore do
+    build_prod
     upload_to_app_store(
-      force: true,
       skip_metadata: true,
-      skip_screenshots: true
+      skip_screenshots: true,
+      force: true
+    )
+  end
+  
+  desc "Generar documentación"
+  lane :generate_docs do
+    jazzy(
+      config: ".jazzy.yaml",
+      clean: true
+    )
+  end
+  
+  desc "Actualizar versión"
+  lane :update_version do
+    increment_version_number(
+      xcodeproj: "QR Biometrico.xcodeproj",
+      target: "QR Biometrico"
+    )
+    increment_build_number(
+      xcodeproj: "QR Biometrico.xcodeproj",
+      target: "QR Biometrico"
     )
   end
   
@@ -53,6 +96,7 @@ platform :ios do
   lane :ci do
     setup
     tests
-    build
+    build_dev
+    build_prod
   end
 end 

@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		42D392EC22F0009EC232A85B /* Pods_QR_Biometrico.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8186A8A7D21CE6B617D7405D /* Pods_QR_Biometrico.framework */; };
-		E53AC9B6835FD88E7D91A444 /* libPods-QR BiometricoUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 63E3B634CF4EE42114502792 /* libPods-QR BiometricoUITests.a */; };
-		EB48D787151886E2E69070CB /* libPods-QR BiometricoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B33D5608CC4F1158265A5204 /* libPods-QR BiometricoTests.a */; };
+		00E454CCA613A56169B8DCE5 /* libPods-QR BiometricoTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C5C98B2DBC39B5CCE7ABDA9 /* libPods-QR BiometricoTests.a */; };
+		CE5B120F71C1F0311C679A4C /* Pods_QR_Biometrico.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9817E0857D5D953E26A6F5A7 /* Pods_QR_Biometrico.framework */; };
+		F1E35621C1DE392EBAE05BBB /* libPods-QR BiometricoUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AAFA0264F0702211708AC9A4 /* libPods-QR BiometricoUITests.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,18 +30,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1FF45CA4737140826469E442 /* Pods-QR BiometricoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QR BiometricoUITests.release.xcconfig"; path = "Target Support Files/Pods-QR BiometricoUITests/Pods-QR BiometricoUITests.release.xcconfig"; sourceTree = "<group>"; };
-		3454763765065C5B15FD624C /* Pods-QR BiometricoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QR BiometricoTests.debug.xcconfig"; path = "Target Support Files/Pods-QR BiometricoTests/Pods-QR BiometricoTests.debug.xcconfig"; sourceTree = "<group>"; };
-		63E3B634CF4EE42114502792 /* libPods-QR BiometricoUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-QR BiometricoUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		8186A8A7D21CE6B617D7405D /* Pods_QR_Biometrico.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QR_Biometrico.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		92C2A44486ABA51E3DCEA703 /* Pods-QR BiometricoUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QR BiometricoUITests.debug.xcconfig"; path = "Target Support Files/Pods-QR BiometricoUITests/Pods-QR BiometricoUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		05706F774B3DFD46FCB1C461 /* Pods-QR Biometrico.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QR Biometrico.release.xcconfig"; path = "Target Support Files/Pods-QR Biometrico/Pods-QR Biometrico.release.xcconfig"; sourceTree = "<group>"; };
+		3198C117C9AF20ECFB585299 /* Pods-QR BiometricoUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QR BiometricoUITests.debug.xcconfig"; path = "Target Support Files/Pods-QR BiometricoUITests/Pods-QR BiometricoUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		5C5C98B2DBC39B5CCE7ABDA9 /* libPods-QR BiometricoTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-QR BiometricoTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		61D73C17A401F8D5EB6C591E /* Pods-QR Biometrico.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QR Biometrico.debug.xcconfig"; path = "Target Support Files/Pods-QR Biometrico/Pods-QR Biometrico.debug.xcconfig"; sourceTree = "<group>"; };
+		9817E0857D5D953E26A6F5A7 /* Pods_QR_Biometrico.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QR_Biometrico.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AAFA0264F0702211708AC9A4 /* libPods-QR BiometricoUITests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-QR BiometricoUITests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AEA012479F06329E6FDD7F88 /* Pods-QR BiometricoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QR BiometricoUITests.release.xcconfig"; path = "Target Support Files/Pods-QR BiometricoUITests/Pods-QR BiometricoUITests.release.xcconfig"; sourceTree = "<group>"; };
 		B195A0052D9A4A5C00EB19EB /* QR Biometrico.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "QR Biometrico.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B195A01B2D9A4A5E00EB19EB /* QR BiometricoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "QR BiometricoTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B195A0252D9A4A5E00EB19EB /* QR BiometricoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "QR BiometricoUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		B33D5608CC4F1158265A5204 /* libPods-QR BiometricoTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-QR BiometricoTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		BC9F485B495E31A78D6F84C4 /* Pods-QR Biometrico.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QR Biometrico.release.xcconfig"; path = "Target Support Files/Pods-QR Biometrico/Pods-QR Biometrico.release.xcconfig"; sourceTree = "<group>"; };
-		E6A458027284A84DA5AA4CB1 /* Pods-QR BiometricoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QR BiometricoTests.release.xcconfig"; path = "Target Support Files/Pods-QR BiometricoTests/Pods-QR BiometricoTests.release.xcconfig"; sourceTree = "<group>"; };
-		EA9CADCBEA9685247D5C7289 /* Pods-QR Biometrico.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QR Biometrico.debug.xcconfig"; path = "Target Support Files/Pods-QR Biometrico/Pods-QR Biometrico.debug.xcconfig"; sourceTree = "<group>"; };
+		C3EBEF3C3AA6D76C79576476 /* Pods-QR BiometricoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QR BiometricoTests.release.xcconfig"; path = "Target Support Files/Pods-QR BiometricoTests/Pods-QR BiometricoTests.release.xcconfig"; sourceTree = "<group>"; };
+		DDF0806468210739BBFBB291 /* Pods-QR BiometricoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QR BiometricoTests.debug.xcconfig"; path = "Target Support Files/Pods-QR BiometricoTests/Pods-QR BiometricoTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -73,7 +73,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				42D392EC22F0009EC232A85B /* Pods_QR_Biometrico.framework in Frameworks */,
+				CE5B120F71C1F0311C679A4C /* Pods_QR_Biometrico.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,7 +81,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EB48D787151886E2E69070CB /* libPods-QR BiometricoTests.a in Frameworks */,
+				00E454CCA613A56169B8DCE5 /* libPods-QR BiometricoTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,7 +89,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E53AC9B6835FD88E7D91A444 /* libPods-QR BiometricoUITests.a in Frameworks */,
+				F1E35621C1DE392EBAE05BBB /* libPods-QR BiometricoUITests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,12 +99,12 @@
 		64B767485E851CEF57B8D9FD /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				EA9CADCBEA9685247D5C7289 /* Pods-QR Biometrico.debug.xcconfig */,
-				BC9F485B495E31A78D6F84C4 /* Pods-QR Biometrico.release.xcconfig */,
-				3454763765065C5B15FD624C /* Pods-QR BiometricoTests.debug.xcconfig */,
-				E6A458027284A84DA5AA4CB1 /* Pods-QR BiometricoTests.release.xcconfig */,
-				92C2A44486ABA51E3DCEA703 /* Pods-QR BiometricoUITests.debug.xcconfig */,
-				1FF45CA4737140826469E442 /* Pods-QR BiometricoUITests.release.xcconfig */,
+				61D73C17A401F8D5EB6C591E /* Pods-QR Biometrico.debug.xcconfig */,
+				05706F774B3DFD46FCB1C461 /* Pods-QR Biometrico.release.xcconfig */,
+				DDF0806468210739BBFBB291 /* Pods-QR BiometricoTests.debug.xcconfig */,
+				C3EBEF3C3AA6D76C79576476 /* Pods-QR BiometricoTests.release.xcconfig */,
+				3198C117C9AF20ECFB585299 /* Pods-QR BiometricoUITests.debug.xcconfig */,
+				AEA012479F06329E6FDD7F88 /* Pods-QR BiometricoUITests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -117,7 +117,7 @@
 				B195A0282D9A4A5E00EB19EB /* QR BiometricoUITests */,
 				B195A0062D9A4A5C00EB19EB /* Products */,
 				64B767485E851CEF57B8D9FD /* Pods */,
-				BE0A1B99BCA4B4459C0D6F8C /* Frameworks */,
+				E0F7234E130BFE8A4EA1D89C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -131,12 +131,12 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		BE0A1B99BCA4B4459C0D6F8C /* Frameworks */ = {
+		E0F7234E130BFE8A4EA1D89C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8186A8A7D21CE6B617D7405D /* Pods_QR_Biometrico.framework */,
-				B33D5608CC4F1158265A5204 /* libPods-QR BiometricoTests.a */,
-				63E3B634CF4EE42114502792 /* libPods-QR BiometricoUITests.a */,
+				9817E0857D5D953E26A6F5A7 /* Pods_QR_Biometrico.framework */,
+				5C5C98B2DBC39B5CCE7ABDA9 /* libPods-QR BiometricoTests.a */,
+				AAFA0264F0702211708AC9A4 /* libPods-QR BiometricoUITests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -148,11 +148,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B195A02F2D9A4A5E00EB19EB /* Build configuration list for PBXNativeTarget "QR Biometrico" */;
 			buildPhases = (
-				F531F8A22B4BF40CFCBD2AEC /* [CP] Check Pods Manifest.lock */,
+				05E9696DBF2419F4B2D4AB65 /* [CP] Check Pods Manifest.lock */,
 				B195A0012D9A4A5C00EB19EB /* Sources */,
 				B195A0022D9A4A5C00EB19EB /* Frameworks */,
 				B195A0032D9A4A5C00EB19EB /* Resources */,
-				C6BF6194614880C25DA2B26C /* [CP] Embed Pods Frameworks */,
+				9C9D5E5DD2411855BB29E080 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -170,7 +170,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B195A0322D9A4A5E00EB19EB /* Build configuration list for PBXNativeTarget "QR BiometricoTests" */;
 			buildPhases = (
-				E4CBF4B937CAC02AA763A38B /* [CP] Check Pods Manifest.lock */,
+				E8015C2106C580F17737CAA7 /* [CP] Check Pods Manifest.lock */,
 				B195A0172D9A4A5E00EB19EB /* Sources */,
 				B195A0182D9A4A5E00EB19EB /* Frameworks */,
 				B195A0192D9A4A5E00EB19EB /* Resources */,
@@ -192,7 +192,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B195A0352D9A4A5E00EB19EB /* Build configuration list for PBXNativeTarget "QR BiometricoUITests" */;
 			buildPhases = (
-				FDBFF33304F835D6D4E34058 /* [CP] Check Pods Manifest.lock */,
+				D49825E6D4B8F39654B30DD9 /* [CP] Check Pods Manifest.lock */,
 				B195A0212D9A4A5E00EB19EB /* Sources */,
 				B195A0222D9A4A5E00EB19EB /* Frameworks */,
 				B195A0232D9A4A5E00EB19EB /* Resources */,
@@ -279,46 +279,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		C6BF6194614880C25DA2B26C /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-QR Biometrico/Pods-QR Biometrico-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-QR Biometrico/Pods-QR Biometrico-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-QR Biometrico/Pods-QR Biometrico-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E4CBF4B937CAC02AA763A38B /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-QR BiometricoTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F531F8A22B4BF40CFCBD2AEC /* [CP] Check Pods Manifest.lock */ = {
+		05E9696DBF2419F4B2D4AB65 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -340,7 +301,24 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		FDBFF33304F835D6D4E34058 /* [CP] Check Pods Manifest.lock */ = {
+		9C9D5E5DD2411855BB29E080 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-QR Biometrico/Pods-QR Biometrico-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-QR Biometrico/Pods-QR Biometrico-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-QR Biometrico/Pods-QR Biometrico-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D49825E6D4B8F39654B30DD9 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -356,6 +334,28 @@
 			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-QR BiometricoUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E8015C2106C580F17737CAA7 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-QR BiometricoTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -518,7 +518,7 @@
 		};
 		B195A0302D9A4A5E00EB19EB /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EA9CADCBEA9685247D5C7289 /* Pods-QR Biometrico.debug.xcconfig */;
+			baseConfigurationReference = 61D73C17A401F8D5EB6C591E /* Pods-QR Biometrico.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -560,7 +560,7 @@
 		};
 		B195A0312D9A4A5E00EB19EB /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BC9F485B495E31A78D6F84C4 /* Pods-QR Biometrico.release.xcconfig */;
+			baseConfigurationReference = 05706F774B3DFD46FCB1C461 /* Pods-QR Biometrico.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -602,7 +602,7 @@
 		};
 		B195A0332D9A4A5E00EB19EB /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3454763765065C5B15FD624C /* Pods-QR BiometricoTests.debug.xcconfig */;
+			baseConfigurationReference = DDF0806468210739BBFBB291 /* Pods-QR BiometricoTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -626,7 +626,7 @@
 		};
 		B195A0342D9A4A5E00EB19EB /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E6A458027284A84DA5AA4CB1 /* Pods-QR BiometricoTests.release.xcconfig */;
+			baseConfigurationReference = C3EBEF3C3AA6D76C79576476 /* Pods-QR BiometricoTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -650,7 +650,7 @@
 		};
 		B195A0362D9A4A5E00EB19EB /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 92C2A44486ABA51E3DCEA703 /* Pods-QR BiometricoUITests.debug.xcconfig */;
+			baseConfigurationReference = 3198C117C9AF20ECFB585299 /* Pods-QR BiometricoUITests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -673,7 +673,7 @@
 		};
 		B195A0372D9A4A5E00EB19EB /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1FF45CA4737140826469E442 /* Pods-QR BiometricoUITests.release.xcconfig */;
+			baseConfigurationReference = AEA012479F06329E6FDD7F88 /* Pods-QR BiometricoUITests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;

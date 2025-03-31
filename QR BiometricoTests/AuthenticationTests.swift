@@ -1,7 +1,7 @@
 import XCTest
 @testable import QR_Biometrico
 
-class MockBiometricAuthService: BiometricAuthServiceProtocol {
+class MockBiometricAuthService: AuthenticationUseCaseProtocol {
     var biometricType: BiometricType
     var shouldSucceed: Bool
     var shouldThrowError: Bool
@@ -14,11 +14,22 @@ class MockBiometricAuthService: BiometricAuthServiceProtocol {
         self.shouldThrowError = shouldThrowError
     }
     
-    func authenticate(reason: String) async throws -> Bool {
+    func authenticateWithBiometrics() async throws -> Bool {
         if shouldThrowError {
             throw BiometricError.authenticationFailed
         }
         return shouldSucceed
+    }
+    
+    func authenticateWithPin(_ pin: String) async throws -> Bool {
+        if shouldThrowError {
+            throw BiometricError.authenticationFailed
+        }
+        return shouldSucceed
+    }
+    
+    func isBiometricAvailable() -> Bool {
+        return true
     }
 }
 
@@ -50,27 +61,28 @@ class MockKeychainService: KeychainService {
     }
 }
 
+@MainActor
 final class AuthenticationTests: XCTestCase {
     var sut: AuthenticationViewModel!
     var mockAuthService: MockBiometricAuthService!
     var mockKeychainService: MockKeychainService!
     
-    override func setUp() {
-        super.setUp()
+    override func setUpWithError() throws {
+        try super.setUpWithError()
         mockAuthService = MockBiometricAuthService()
         mockKeychainService = MockKeychainService()
-        sut = AuthenticationViewModel(authService: mockAuthService,
+        sut = AuthenticationViewModel(authenticationUseCase: mockAuthService,
                                    keychainService: mockKeychainService)
     }
     
-    override func tearDown() {
+    override func tearDownWithError() throws {
         sut = nil
         mockAuthService = nil
         mockKeychainService = nil
-        super.tearDown()
+        try super.tearDownWithError()
     }
     
-    func testSuccessfulBiometricAuthentication() async {
+    func testSuccessfulBiometricAuthentication() async throws {
         // Given
         mockAuthService.shouldSucceed = true
         
@@ -83,7 +95,7 @@ final class AuthenticationTests: XCTestCase {
         XCTAssertFalse(sut.showPINInput)
     }
     
-    func testFailedBiometricAuthenticationShowsPINInput() async {
+    func testFailedBiometricAuthenticationShowsPINInput() async throws {
         // Given
         mockAuthService.shouldThrowError = true
         
@@ -95,7 +107,7 @@ final class AuthenticationTests: XCTestCase {
         XCTAssertTrue(sut.showPINInput)
     }
     
-    func testSuccessfulPINVerification() async {
+    func testSuccessfulPINVerification() async throws {
         // Given
         mockKeychainService.storedPIN = "1234"
         sut.pin = "1234"
@@ -109,7 +121,7 @@ final class AuthenticationTests: XCTestCase {
         XCTAssertFalse(sut.showPINInput)
     }
     
-    func testFailedPINVerification() async {
+    func testFailedPINVerification() async throws {
         // Given
         mockKeychainService.storedPIN = "1234"
         sut.pin = "5678"
@@ -122,7 +134,7 @@ final class AuthenticationTests: XCTestCase {
         XCTAssertEqual(sut.error, "PIN incorrecto")
     }
     
-    func testSetupNewPIN() async {
+    func testSetupNewPIN() async throws {
         // Given
         sut.pin = "1234"
         

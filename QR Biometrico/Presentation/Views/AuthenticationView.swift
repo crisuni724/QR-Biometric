@@ -34,7 +34,7 @@ struct AuthenticationView: View {
                 .font(.title)
                 .bold()
             
-            if viewModel.showPinInput {
+            if viewModel.showPINInput {
                 SecureField("PIN", text: $pin)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .keyboardType(.numberPad)

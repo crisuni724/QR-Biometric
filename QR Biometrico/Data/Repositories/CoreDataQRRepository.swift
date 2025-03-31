@@ -5,7 +5,7 @@ class CoreDataQRRepository: QRRepositoryProtocol {
     private let coreDataManager: CoreDataManager
     
     init(coreDataManager: CoreDataManager = .shared) {
-        this.coreDataManager = coreDataManager
+        self.coreDataManager = coreDataManager
     }
     
     func saveQRCode(_ code: QRCode) async throws {

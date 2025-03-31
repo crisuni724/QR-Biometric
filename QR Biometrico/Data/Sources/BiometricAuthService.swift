@@ -1,12 +1,6 @@
 import LocalAuthentication
 import Foundation
 
-enum BiometricType {
-    case none
-    case touchID
-    case faceID
-}
-
 enum BiometricError: Error {
     case authenticationFailed
     case biometryNotAvailable
@@ -24,19 +18,7 @@ class BiometricAuthService: BiometricAuthServiceProtocol {
     private let context = LAContext()
     
     var biometricType: BiometricType {
-        var error: NSError?
-        guard context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) else {
-            return .none
-        }
-        
-        switch context.biometryType {
-        case .touchID:
-            return .touchID
-        case .faceID:
-            return .faceID
-        default:
-            return .none
-        }
+        BiometricType.getType()
     }
     
     func authenticate(reason: String) async throws -> Bool {
