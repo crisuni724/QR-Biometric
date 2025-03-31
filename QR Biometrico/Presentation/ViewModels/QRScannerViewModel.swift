@@ -32,7 +32,7 @@ class QRScannerViewModel: ObservableObject {
     }
     
     private func setupSubscriptions() {
-        scannerService.scannedCodePublisher
+        scannerService.scanResultPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] code in
                 Task {
@@ -52,6 +52,7 @@ class QRScannerViewModel: ObservableObject {
     func startScanning() async {
         state = .scanning
         do {
+            try await scannerService.setupCaptureSession()
             try await scannerService.startScanning()
         } catch {
             state = .error(error.localizedDescription)
@@ -60,7 +61,11 @@ class QRScannerViewModel: ObservableObject {
     
     func stopScanning() async {
         state = .idle
-        await scannerService.stopScanning()
+        do {
+            try await scannerService.stopScanning()
+        } catch {
+            state = .error(error.localizedDescription)
+        }
     }
     
     private func handleScannedCode(_ code: String) async {

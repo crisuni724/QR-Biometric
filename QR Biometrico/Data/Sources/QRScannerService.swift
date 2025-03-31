@@ -27,6 +27,7 @@ enum QRScannerError: LocalizedError {
 
 protocol QRScannerServiceProtocol {
     var scanResultPublisher: AnyPublisher<String, Never> { get }
+    var errorPublisher: AnyPublisher<QRScannerError, Never> { get }
     func setupCaptureSession() async throws
     func startScanning() async throws
     func stopScanning() async throws
@@ -34,8 +35,14 @@ protocol QRScannerServiceProtocol {
 
 class QRScannerService: NSObject, QRScannerServiceProtocol, AVCaptureMetadataOutputObjectsDelegate {
     private let scanResultSubject = PassthroughSubject<String, Never>()
+    private let errorSubject = PassthroughSubject<QRScannerError, Never>()
+    
     var scanResultPublisher: AnyPublisher<String, Never> {
         scanResultSubject.eraseToAnyPublisher()
+    }
+    
+    var errorPublisher: AnyPublisher<QRScannerError, Never> {
+        errorSubject.eraseToAnyPublisher()
     }
     
     private var captureSession: AVCaptureSession?
