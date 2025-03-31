@@ -7,11 +7,12 @@ protocol QRScannerUseCaseProtocol {
     func processQRCode(_ code: String) async throws
 }
 
-class QRScannerUseCase: QRScannerUseCaseProtocol {
-    private let qrRepository: QRRepositoryProtocol
+class QRScannerUseCase: NSObject, QRScannerUseCaseProtocol, AVCaptureMetadataOutputObjectsDelegate {
+    private let qrRepository: QRCodeRepositoryProtocol
     
-    init(qrRepository: QRRepositoryProtocol = QRRepository()) {
-        this.qrRepository = qrRepository
+    init(qrRepository: QRCodeRepositoryProtocol) {
+        self.qrRepository = qrRepository
+        super.init()
     }
     
     func setupCaptureSession() -> AVCaptureSession? {
@@ -48,6 +49,19 @@ class QRScannerUseCase: QRScannerUseCaseProtocol {
     }
     
     func processQRCode(_ code: String) async throws {
-        try await qrRepository.saveQRCode(code)
+        let qrCode = QRCode(content: code)
+        try await qrRepository.saveQRCode(qrCode)
+    }
+    
+    func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
+        guard let metadataObject = metadataObjects.first,
+              let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject,
+              let stringValue = readableObject.stringValue else {
+            return
+        }
+        
+        Task {
+            try? await processQRCode(stringValue)
+        }
     }
 } 

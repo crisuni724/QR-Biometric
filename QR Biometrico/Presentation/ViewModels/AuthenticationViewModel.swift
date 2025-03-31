@@ -85,4 +85,3 @@ class AuthenticationViewModel: ObservableObject {
         showPinInput = false
     }
 } 
-} 
