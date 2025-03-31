@@ -1,6 +1,5 @@
 import Foundation
 import AVFoundation
-import Flutter
 import Combine
 
 enum QRScannerState {
@@ -20,15 +19,12 @@ class QRScannerViewModel: ObservableObject {
     
     private let scannerService: QRScannerServiceProtocol
     private let qrCodeService: QRCodeServiceProtocol
-    private let methodChannel: FlutterMethodChannel
     private var cancellables = Set<AnyCancellable>()
     
     init(scannerService: QRScannerServiceProtocol,
-         qrCodeService: QRCodeServiceProtocol,
-         methodChannel: FlutterMethodChannel) {
+         qrCodeService: QRCodeServiceProtocol) {
         self.scannerService = scannerService
         self.qrCodeService = qrCodeService
-        self.methodChannel = methodChannel
         
         setupSubscriptions()
     }
@@ -90,15 +86,17 @@ class QRScannerViewModel: ObservableObject {
             let qrCode = try await qrCodeService.processQRCode(code)
             lastScannedCode = qrCode
             
-            // Notificar a Flutter
-            let result = [
-                "id": qrCode.id,
-                "content": qrCode.content,
-                "timestamp": qrCode.timestamp.timeIntervalSince1970,
-                "type": detectQRCodeType(code)
-            ] as [String : Any]
-            
-            try await methodChannel.invokeMethod("onQRCodeScanned", arguments: result)
+            // Notificar a través de una notificación local
+            NotificationCenter.default.post(
+                name: .qrCodeScanned,
+                object: nil,
+                userInfo: [
+                    "id": qrCode.id,
+                    "content": qrCode.content,
+                    "timestamp": qrCode.timestamp.timeIntervalSince1970,
+                    "type": detectQRCodeType(code)
+                ]
+            )
             
             state = .success
             isScanning = false
@@ -131,4 +129,9 @@ class QRScannerViewModel: ObservableObject {
         isScanning = false
         errorMessage = nil
     }
+}
+
+// Extensión para la notificación
+extension Notification.Name {
+    static let qrCodeScanned = Notification.Name("qrCodeScanned")
 } 
