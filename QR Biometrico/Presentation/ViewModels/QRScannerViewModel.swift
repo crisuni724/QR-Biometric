@@ -5,16 +5,27 @@ import Combine
 @MainActor
 class QRScannerViewModel: ObservableObject {
     @Published var scannedCodes: [QRCode] = []
-    @Published var error: String?
+    @Published var error: Error?
     @Published var isScanning = false
     
     private let scannerService: QRScannerServiceProtocol
     private let repository: QRCodeRepositoryProtocol
+    private var cancellables = Set<AnyCancellable>()
     
-    init(scannerService: QRScannerServiceProtocol = QRScannerService(),
-         repository: QRCodeRepositoryProtocol = QRCodeRepository()) {
+    init(scannerService: QRScannerServiceProtocol, repository: QRCodeRepositoryProtocol) {
         self.scannerService = scannerService
         self.repository = repository
+        super.init()
+        setupBindings()
+    }
+    
+    private func setupBindings() {
+        scannerService.scanResultPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] result in
+                self?.handleScanResult(result)
+            }
+            .store(in: &cancellables)
     }
     
     // Método público para obtener el servicio del escáner
@@ -24,53 +35,50 @@ class QRScannerViewModel: ObservableObject {
     
     func startScanning() async {
         do {
-            let session = try scannerService.setupCaptureSession()
-            scannerService.setCompletionHandler { [weak self] result in
-                Task {
-                    await self?.handleScanResult(result)
-                }
-            }
+            try await scannerService.setupCaptureSession()
             try await scannerService.startScanning()
             isScanning = true
         } catch {
-            self.error = error.localizedDescription
+            self.error = error
+            isScanning = false
         }
     }
     
     func stopScanning() async {
-        await scannerService.stopScanning()
-        isScanning = false
+        do {
+            try await scannerService.stopScanning()
+            isScanning = false
+        } catch {
+            self.error = error
+        }
     }
     
     func loadScannedCodes() async {
         do {
-            scannedCodes = try await repository.getAllQRCodes()
+            scannedCodes = try await repository.getScannedCodes()
         } catch {
-            self.error = error.localizedDescription
+            self.error = error
         }
     }
     
-    private func handleScanResult(_ result: Result<String, Error>) async {
-        switch result {
-        case .success(let content):
-            let qrCode = QRCode(content: content)
+    private func handleScanResult(_ result: String) {
+        Task {
             do {
+                let qrCode = QRCode(content: result)
                 try await repository.saveQRCode(qrCode)
                 await loadScannedCodes()
             } catch {
-                self.error = error.localizedDescription
+                self.error = error
             }
-        case .failure(let error):
-            self.error = error.localizedDescription
         }
     }
     
-    func deleteQRCode(_ qrCode: QRCode) async {
+    func deleteQRCode(_ code: QRCode) async {
         do {
-            try await repository.deleteQRCode(qrCode)
+            try await repository.deleteQRCode(code)
             await loadScannedCodes()
         } catch {
-            self.error = error.localizedDescription
+            self.error = error
         }
     }
 } 
