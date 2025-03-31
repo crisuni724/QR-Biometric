@@ -59,7 +59,7 @@ final class AuthenticationTests: XCTestCase {
         super.setUp()
         mockAuthService = MockBiometricAuthService()
         mockKeychainService = MockKeychainService()
-        sut = AuthenticationViewModel(authService: mockAuthService,
+        sut = AuthenticationViewModel(authenticationUseCase: mockAuthService,
                                    keychainService: mockKeychainService)
     }
     
@@ -70,6 +70,7 @@ final class AuthenticationTests: XCTestCase {
         super.tearDown()
     }
     
+    @MainActor
     func testSuccessfulBiometricAuthentication() async {
         // Given
         mockAuthService.shouldSucceed = true
@@ -83,6 +84,7 @@ final class AuthenticationTests: XCTestCase {
         XCTAssertFalse(sut.showPINInput)
     }
     
+    @MainActor
     func testFailedBiometricAuthenticationShowsPINInput() async {
         // Given
         mockAuthService.shouldThrowError = true
@@ -95,6 +97,7 @@ final class AuthenticationTests: XCTestCase {
         XCTAssertTrue(sut.showPINInput)
     }
     
+    @MainActor
     func testSuccessfulPINVerification() async {
         // Given
         mockKeychainService.storedPIN = "1234"
@@ -109,6 +112,7 @@ final class AuthenticationTests: XCTestCase {
         XCTAssertFalse(sut.showPINInput)
     }
     
+    @MainActor
     func testFailedPINVerification() async {
         // Given
         mockKeychainService.storedPIN = "1234"
@@ -122,6 +126,7 @@ final class AuthenticationTests: XCTestCase {
         XCTAssertEqual(sut.error, "PIN incorrecto")
     }
     
+    @MainActor
     func testSetupNewPIN() async {
         // Given
         sut.pin = "1234"

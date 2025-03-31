@@ -57,6 +57,7 @@ enum KeychainError: LocalizedError {
     case saveFailed
     case deleteFailed
     case itemNotFound
+    case unknown(OSStatus)
     
     var errorDescription: String? {
         switch self {
@@ -66,6 +67,8 @@ enum KeychainError: LocalizedError {
             return "No se pudo eliminar el PIN del Keychain"
         case .itemNotFound:
             return "No se encontró el PIN en el Keychain"
+        case .unknown(let status):
+            return "Error desconocido del Keychain: \(status)"
         }
     }
 } 

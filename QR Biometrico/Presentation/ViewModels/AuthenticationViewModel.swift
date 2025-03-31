@@ -5,7 +5,7 @@ import LocalAuthentication
 @MainActor
 class AuthenticationViewModel: ObservableObject {
     @Published var isAuthenticated = false
-    @Published var showPinInput = false
+    @Published var showPINInput = false
     @Published var error: String?
     @Published var isLoading = false
     @Published var biometricType: BiometricType = .none
@@ -30,11 +30,11 @@ class AuthenticationViewModel: ObservableObject {
             if authenticationUseCase.isBiometricAvailable() {
                 isAuthenticated = try await authenticationUseCase.authenticateWithBiometrics()
             } else {
-                showPinInput = true
+                showPINInput = true
             }
         } catch {
             self.error = error.localizedDescription
-            showPinInput = true
+            showPINInput = true
         }
         
         isLoading = false
@@ -83,6 +83,6 @@ class AuthenticationViewModel: ObservableObject {
     func signOut() {
         isAuthenticated = false
         pin = ""
-        showPinInput = false
+        showPINInput = false
     }
 } 
