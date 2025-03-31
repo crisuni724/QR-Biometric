@@ -1,84 +1,89 @@
 import Foundation
 import AVFoundation
+import Flutter
 import Combine
+
+enum QRScannerState {
+    case idle
+    case scanning
+    case processing
+    case success
+    case error(String)
+}
 
 @MainActor
 class QRScannerViewModel: ObservableObject {
-    @Published var scannedCodes: [QRCode] = []
-    @Published var error: Error?
-    @Published var isScanning = false
+    @Published private(set) var state: QRScannerState = .idle
+    @Published private(set) var lastScannedCode: QRCode?
     
     private let scannerService: QRScannerServiceProtocol
-    private let repository: QRCodeRepositoryProtocol
+    private let qrCodeService: QRCodeServiceProtocol
+    private let methodChannel: FlutterMethodChannel
     private var cancellables = Set<AnyCancellable>()
     
-    init(scannerService: QRScannerServiceProtocol, repository: QRCodeRepositoryProtocol) {
+    init(scannerService: QRScannerServiceProtocol,
+         qrCodeService: QRCodeServiceProtocol,
+         methodChannel: FlutterMethodChannel) {
         self.scannerService = scannerService
-        self.repository = repository
-        super.init()
-        setupBindings()
+        self.qrCodeService = qrCodeService
+        self.methodChannel = methodChannel
+        
+        setupSubscriptions()
     }
     
-    private func setupBindings() {
-        scannerService.scanResultPublisher
+    private func setupSubscriptions() {
+        scannerService.scannedCodePublisher
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] result in
-                self?.handleScanResult(result)
+            .sink { [weak self] code in
+                Task {
+                    await self?.handleScannedCode(code)
+                }
+            }
+            .store(in: &cancellables)
+        
+        scannerService.errorPublisher
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] error in
+                self?.state = .error(error.localizedDescription)
             }
             .store(in: &cancellables)
     }
     
-    // Método público para obtener el servicio del escáner
-    func getScannerService() -> QRScannerServiceProtocol {
-        return scannerService
-    }
-    
     func startScanning() async {
+        state = .scanning
         do {
-            try await scannerService.setupCaptureSession()
             try await scannerService.startScanning()
-            isScanning = true
         } catch {
-            self.error = error
-            isScanning = false
+            state = .error(error.localizedDescription)
         }
     }
     
     func stopScanning() async {
+        state = .idle
+        await scannerService.stopScanning()
+    }
+    
+    private func handleScannedCode(_ code: String) async {
+        state = .processing
+        
         do {
-            try await scannerService.stopScanning()
-            isScanning = false
+            let qrCode = try await qrCodeService.processQRCode(code)
+            lastScannedCode = qrCode
+            
+            // Notificar a Flutter
+            let result = ["id": qrCode.id,
+                         "content": qrCode.content,
+                         "timestamp": qrCode.timestamp.timeIntervalSince1970] as [String : Any]
+            try await methodChannel.invokeMethod("onQRCodeScanned", arguments: result)
+            
+            state = .success
         } catch {
-            self.error = error
+            state = .error(error.localizedDescription)
         }
     }
     
-    func loadScannedCodes() async {
-        do {
-            scannedCodes = try await repository.getScannedCodes()
-        } catch {
-            self.error = error
-        }
-    }
-    
-    private func handleScanResult(_ result: String) {
-        Task {
-            do {
-                let qrCode = QRCode(content: result)
-                try await repository.saveQRCode(qrCode)
-                await loadScannedCodes()
-            } catch {
-                self.error = error
-            }
-        }
-    }
-    
-    func deleteQRCode(_ code: QRCode) async {
-        do {
-            try await repository.deleteQRCode(code)
-            await loadScannedCodes()
-        } catch {
-            self.error = error
-        }
+    func reset() {
+        state = .idle
+        lastScannedCode = nil
     }
 } 
