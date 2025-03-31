@@ -5,7 +5,7 @@ class KeychainService {
     static let shared = KeychainService()
     private let dataSource = KeychainDataSource()
     
-    private init() {}
+    internal init() {}
     
     func savePIN(_ pin: String) throws {
         try dataSource.savePin(pin)

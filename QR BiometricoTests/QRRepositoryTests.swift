@@ -8,7 +8,7 @@ class QRRepositoryTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        coreDataManager = CoreDataManager()
+        coreDataManager = CoreDataManager(inMemory: true)
         repository = CoreDataQRRepository(coreDataManager: coreDataManager)
     }
     

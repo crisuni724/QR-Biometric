@@ -1,7 +1,7 @@
 import XCTest
 @testable import QR_Biometrico
 
-class MockBiometricAuthService: BiometricAuthServiceProtocol {
+class MockBiometricAuthService: AuthenticationUseCaseProtocol {
     var biometricType: BiometricType
     var shouldSucceed: Bool
     var shouldThrowError: Bool
@@ -14,11 +14,22 @@ class MockBiometricAuthService: BiometricAuthServiceProtocol {
         self.shouldThrowError = shouldThrowError
     }
     
-    func authenticate(reason: String) async throws -> Bool {
+    func authenticateWithBiometrics() async throws -> Bool {
         if shouldThrowError {
             throw BiometricError.authenticationFailed
         }
         return shouldSucceed
+    }
+    
+    func authenticateWithPin(_ pin: String) async throws -> Bool {
+        if shouldThrowError {
+            throw BiometricError.authenticationFailed
+        }
+        return shouldSucceed
+    }
+    
+    func isBiometricAvailable() -> Bool {
+        return true
     }
 }
 
@@ -55,7 +66,8 @@ final class AuthenticationTests: XCTestCase {
     var mockAuthService: MockBiometricAuthService!
     var mockKeychainService: MockKeychainService!
     
-    override func setUp() {
+    @MainActor
+    override func setUp() async throws {
         super.setUp()
         mockAuthService = MockBiometricAuthService()
         mockKeychainService = MockKeychainService()
