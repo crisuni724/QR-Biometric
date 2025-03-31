@@ -33,7 +33,7 @@ class KeychainDataSource {
         guard status == errSecSuccess,
               let data = result as? Data,
               let pin = String(data: data, encoding: .utf8) else {
-            return nil
+            throw KeychainError.itemNotFound
         }
         
         return pin
@@ -56,6 +56,7 @@ class KeychainDataSource {
 enum KeychainError: LocalizedError {
     case saveFailed
     case deleteFailed
+    case itemNotFound
     
     var errorDescription: String? {
         switch self {
@@ -63,6 +64,8 @@ enum KeychainError: LocalizedError {
             return "No se pudo guardar el PIN en el Keychain"
         case .deleteFailed:
             return "No se pudo eliminar el PIN del Keychain"
+        case .itemNotFound:
+            return "No se encontró el PIN en el Keychain"
         }
     }
 } 

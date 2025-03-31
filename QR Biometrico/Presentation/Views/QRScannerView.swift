@@ -7,13 +7,12 @@ struct QRScannerView: UIViewRepresentable {
     func makeUIView(context: Context) -> UIView {
         let view = UIView(frame: UIScreen.main.bounds)
         
-        guard let previewLayer = viewModel.getScannerService().getPreviewLayer() else {
-            return view
+        if let session = try? viewModel.getScannerService().setupCaptureSession() {
+            let previewLayer = AVCaptureVideoPreviewLayer(session: session)
+            previewLayer.frame = view.frame
+            previewLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
+            view.layer.addSublayer(previewLayer)
         }
-        
-        previewLayer.frame = view.frame
-        previewLayer.videoGravity = .resizeAspectFill
-        view.layer.addSublayer(previewLayer)
         
         return view
     }
