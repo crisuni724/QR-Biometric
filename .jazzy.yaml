@@ -1,0 +1,22 @@
+module: QR_Biometrico
+author: Cristian Developer
+author_url: https://github.com/crisdeveloper
+github_url: https://github.com/crisdeveloper/qr-biometrico
+github_file_prefix: https://github.com/crisdeveloper/qr-biometrico/blob/main
+skip_undocumented: true
+exclude:
+  - "QR Biometrico/AppDelegate.swift"
+  - "QR Biometrico/SceneDelegate.swift"
+  - "QR Biometrico/Info.plist"
+  - "QR Biometrico/Assets.xcassets"
+  - "QR Biometrico/Base.lproj"
+  - "QR Biometrico/LaunchScreen.storyboard"
+  - "QR Biometrico/Supporting Files"
+  - "QR BiometricoTests"
+  - "QR BiometricoUITests"
+  - "Pods"
+  - "fastlane"
+  - "flutter_module"
+min_acl: internal
+output: docs
+clean: true 

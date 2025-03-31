@@ -1,18 +1,25 @@
 PODS:
+  - Flutter (1.0.0)
   - ZXingObjC (3.6.9):
     - ZXingObjC/All (= 3.6.9)
   - ZXingObjC/All (3.6.9)
 
 DEPENDENCIES:
+  - Flutter (from `Flutter`)
   - ZXingObjC (~> 3.6.9)
 
 SPEC REPOS:
   trunk:
     - ZXingObjC
 
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+
 SPEC CHECKSUMS:
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   ZXingObjC: 8898711ab495761b2dbbdec76d90164a6d7e14c5
 
-PODFILE CHECKSUM: 15f2924d3c8ac4dd3b563b10482711033ee55d11
+PODFILE CHECKSUM: ece265a4d33594e203c596b2557ce0975535dc82
 
 COCOAPODS: 1.16.2

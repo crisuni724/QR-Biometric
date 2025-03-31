@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "1D3F6510C0812CB0452B33D01F56A9EE"
-               BuildableName = "libPods-QR BiometricoUITests.a"
+               BuildableName = "Pods_QR_BiometricoUITests.framework"
                BlueprintName = "Pods-QR BiometricoUITests"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
