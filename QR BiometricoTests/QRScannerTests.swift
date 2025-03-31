@@ -8,8 +8,8 @@ class MockQRScannerService: QRScannerServiceProtocol {
     var isScanning: Bool = false
     
     init(shouldSucceed: Bool = true, shouldThrowError: Bool = false) {
-        this.shouldSucceed = shouldSucceed
-        this.shouldThrowError = shouldThrowError
+        self.shouldSucceed = shouldSucceed
+        self.shouldThrowError = shouldThrowError
     }
     
     func setupCaptureSession() throws -> AVCaptureSession {
@@ -26,7 +26,7 @@ class MockQRScannerService: QRScannerServiceProtocol {
         isScanning = true
     }
     
-    func stopScanning() {
+    func stopScanning() async {
         isScanning = false
     }
     
@@ -39,23 +39,24 @@ class MockQRScannerService: QRScannerServiceProtocol {
     }
 }
 
+@MainActor
 final class QRScannerTests: XCTestCase {
     var sut: QRScannerViewModel!
     var mockScannerService: MockQRScannerService!
     
-    override func setUp() {
-        super.setUp()
+    override func setUpWithError() throws {
+        try super.setUpWithError()
         mockScannerService = MockQRScannerService()
         sut = QRScannerViewModel(scannerService: mockScannerService)
     }
     
-    override func tearDown() {
+    override func tearDownWithError() throws {
         sut = nil
         mockScannerService = nil
-        super.tearDown()
+        try super.tearDownWithError()
     }
     
-    func testSuccessfulQRScanning() async {
+    func testSuccessfulQRScanning() async throws {
         // Given
         mockScannerService.shouldSucceed = true
         
@@ -69,7 +70,7 @@ final class QRScannerTests: XCTestCase {
         XCTAssertEqual(sut.scannedCodes.first?.content, "QR Code de prueba")
     }
     
-    func testFailedQRScanning() async {
+    func testFailedQRScanning() async throws {
         // Given
         mockScannerService.shouldSucceed = false
         
@@ -82,22 +83,19 @@ final class QRScannerTests: XCTestCase {
         XCTAssertEqual(sut.scannedCodes.count, 0)
     }
     
-    func testStopScanning() async {
+    func testStopScanning() async throws {
         // Given
         await sut.startScanning()
         XCTAssertTrue(sut.isScanning)
         
         // When
-        sut.stopScanning()
+        await sut.stopScanning()
         
         // Then
         XCTAssertFalse(sut.isScanning)
     }
     
-    func testLoadScannedCodes() async {
-        // Given
-        let qrCode = QRCode(content: "Test QR Code")
-        
+    func testLoadScannedCodes() async throws {
         // When
         await sut.loadScannedCodes()
         

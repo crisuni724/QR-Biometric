@@ -5,7 +5,7 @@ import Combine
 protocol QRScannerServiceProtocol {
     func setupCaptureSession() throws -> AVCaptureSession
     func startScanning() async throws
-    func stopScanning()
+    func stopScanning() async
     func setCompletionHandler(_ handler: @escaping (Result<String, Error>) -> Void)
     var isScanning: Bool { get }
 }
@@ -67,7 +67,7 @@ class QRScannerService: NSObject, QRScannerServiceProtocol {
         }
     }
     
-    func stopScanning() {
+    func stopScanning() async {
         captureSession?.stopRunning()
         isProcessing = false
     }

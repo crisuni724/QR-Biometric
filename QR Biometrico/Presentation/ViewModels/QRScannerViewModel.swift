@@ -37,8 +37,8 @@ class QRScannerViewModel: ObservableObject {
         }
     }
     
-    func stopScanning() {
-        scannerService.stopScanning()
+    func stopScanning() async {
+        await scannerService.stopScanning()
         isScanning = false
     }
     

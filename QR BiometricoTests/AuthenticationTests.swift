@@ -61,29 +61,28 @@ class MockKeychainService: KeychainService {
     }
 }
 
+@MainActor
 final class AuthenticationTests: XCTestCase {
     var sut: AuthenticationViewModel!
     var mockAuthService: MockBiometricAuthService!
     var mockKeychainService: MockKeychainService!
     
-    @MainActor
-    override func setUp() async throws {
-        super.setUp()
+    override func setUpWithError() throws {
+        try super.setUpWithError()
         mockAuthService = MockBiometricAuthService()
         mockKeychainService = MockKeychainService()
         sut = AuthenticationViewModel(authenticationUseCase: mockAuthService,
                                    keychainService: mockKeychainService)
     }
     
-    override func tearDown() {
+    override func tearDownWithError() throws {
         sut = nil
         mockAuthService = nil
         mockKeychainService = nil
-        super.tearDown()
+        try super.tearDownWithError()
     }
     
-    @MainActor
-    func testSuccessfulBiometricAuthentication() async {
+    func testSuccessfulBiometricAuthentication() async throws {
         // Given
         mockAuthService.shouldSucceed = true
         
@@ -96,8 +95,7 @@ final class AuthenticationTests: XCTestCase {
         XCTAssertFalse(sut.showPINInput)
     }
     
-    @MainActor
-    func testFailedBiometricAuthenticationShowsPINInput() async {
+    func testFailedBiometricAuthenticationShowsPINInput() async throws {
         // Given
         mockAuthService.shouldThrowError = true
         
@@ -109,8 +107,7 @@ final class AuthenticationTests: XCTestCase {
         XCTAssertTrue(sut.showPINInput)
     }
     
-    @MainActor
-    func testSuccessfulPINVerification() async {
+    func testSuccessfulPINVerification() async throws {
         // Given
         mockKeychainService.storedPIN = "1234"
         sut.pin = "1234"
@@ -124,8 +121,7 @@ final class AuthenticationTests: XCTestCase {
         XCTAssertFalse(sut.showPINInput)
     }
     
-    @MainActor
-    func testFailedPINVerification() async {
+    func testFailedPINVerification() async throws {
         // Given
         mockKeychainService.storedPIN = "1234"
         sut.pin = "5678"
@@ -138,8 +134,7 @@ final class AuthenticationTests: XCTestCase {
         XCTAssertEqual(sut.error, "PIN incorrecto")
     }
     
-    @MainActor
-    func testSetupNewPIN() async {
+    func testSetupNewPIN() async throws {
         // Given
         sut.pin = "1234"
         
