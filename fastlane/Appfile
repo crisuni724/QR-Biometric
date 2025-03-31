@@ -1,0 +1,3 @@
+app_identifier("com.qrbiometrico.app")
+apple_id("tu-email@ejemplo.com")
+team_id("TU-TEAM-ID") 

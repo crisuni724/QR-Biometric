@@ -1,0 +1,58 @@
+default_platform(:ios)
+
+platform :ios do
+  desc "Configurar el proyecto"
+  lane :setup do
+    cocoapods
+    update_code_signing_settings(
+      use_automatic_signing: true,
+      targets: ["QR Biometrico"]
+    )
+  end
+  
+  desc "Ejecutar pruebas"
+  lane :tests do
+    scan(
+      scheme: "QR Biometrico",
+      devices: ["iPhone 15 Pro"],
+      clean: true
+    )
+  end
+  
+  desc "Construir la aplicación"
+  lane :build do
+    setup_ci if is_ci
+    increment_build_number
+    build_ios_app(
+      scheme: "QR Biometrico",
+      export_method: "app-store",
+      configuration: "Release",
+      clean: true
+    )
+  end
+  
+  desc "Desplegar a TestFlight"
+  lane :beta do
+    build
+    upload_to_testflight(
+      skip_waiting_for_build_processing: true
+    )
+  end
+  
+  desc "Desplegar a App Store"
+  lane :release do
+    build
+    upload_to_app_store(
+      force: true,
+      skip_metadata: true,
+      skip_screenshots: true
+    )
+  end
+  
+  desc "Ejecutar CI completo"
+  lane :ci do
+    setup
+    tests
+    build
+  end
+end 

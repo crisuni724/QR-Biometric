@@ -1,0 +1,6 @@
+framework module Pods_QR_Biometrico {
+  umbrella header "Pods-QR Biometrico-umbrella.h"
+
+  export *
+  module * { export * }
+}
