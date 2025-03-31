@@ -53,6 +53,20 @@ class QRScannerService: NSObject, QRScannerServiceProtocol, AVCaptureMetadataOut
     }
     
     func setupCaptureSession() async throws {
+        // Verificar permisos de cámara
+        switch AVCaptureDevice.authorizationStatus(for: .video) {
+        case .authorized:
+            break
+        case .notDetermined:
+            guard await AVCaptureDevice.requestAccess(for: .video) else {
+                throw QRScannerError.notAuthorized
+            }
+        case .denied, .restricted:
+            throw QRScannerError.notAuthorized
+        @unknown default:
+            throw QRScannerError.setupFailed
+        }
+        
         let session = AVCaptureSession()
         
         guard let videoCaptureDevice = AVCaptureDevice.default(for: .video) else {
@@ -123,5 +137,4 @@ class QRScannerService: NSObject, QRScannerServiceProtocol, AVCaptureMetadataOut
         isProcessing = true
         scanResultSubject.send(stringValue)
     }
-} 
 } 
